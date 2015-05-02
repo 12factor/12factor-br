@@ -1,14 +1,14 @@
 ## VII. Port binding
-### Export services via port binding
+### Exporte serviços por porta de ligação
 
-Web apps are sometimes executed inside a webserver container.  For example, PHP apps might run as a module inside [Apache HTTPD](http://httpd.apache.org/), or Java apps might run inside [Tomcat](http://tomcat.apache.org/).
+Aplicações web são executadas algumas vezes dentro de um container de servidor web. Por exemplo, aplicações PHP podem ser executadas como um módulo dentro do [Apache HTTPD](http://httpd.apache.org/), ou aplicações Java que podem ser excutadas dentro do [Tomcat](http://tomcat.apache.org/).
 
-**The twelve-factor app is completely self-contained** and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.  The web app **exports HTTP as a service by binding to a port**, and listening to requests coming in on that port.
+**A aplicação twelve-factor é completamente auto-suficiente** e não depende da injeção do runtime de um servidor web dentro de um ambiente de execução para criar um serviço voltado para web. A aplicação web **exporta HTTP como um serviço ligado a uma porta**, e fica escutando solicitações recebidas nessa porta.
 
-In a local development environment, the developer visits a service URL like `http://localhost:5000/` to access the service exported by their app.  In deployment, a routing layer handles routing requests from a public-facing hostname to the port-bound web processes.
+Em um ambiente local de desenvolvimento, o desenvolvedor visita a URL de um serviço como `http://localhost:5000` para acessar o serviço exportado pela sua aplicação. Na implantação, uma camada de roteamento lida roteando as solicitações de um hostname público para uma porta ligada aos processos web.  
 
-This is typically implemented by using [dependency declaration](./dependencies) to add a webserver library to the app, such as [Tornado](http://www.tornadoweb.org/) for Python, [Thin](http://code.macournoyer.com/thin/) for Ruby, or [Jetty](http://jetty.codehaus.org/jetty/) for Java and other JVM-based languages.  This happens entirely in *user space*, that is, within the app's code.  The contract with the execution environment is binding to a port to serve requests.
+Isto é tipicamente implementado usando [declaração de dependências](./dependencies) para adicionar uma biblioteca webserver para a aplicação, tais como [Tornado](http://www.tornadoweb.org/) para Python, [Thin](http://code.macournoyer.com/thin/) para Ruby, ou [Jetty](http://jetty.codehaus.org/jetty/) para java e outras linguagens baseadas na JVM. Isto acontece inteiramente no *user space*, ou seja, no código da aplicação. O contrato com a ambiente de execução é a ligação a uma porta para atender as solicitações.    
 
-HTTP is not the only service that can be exported by port binding.  Nearly any kind of server software can be run via a process binding to a port and awaiting incoming requests.  Examples include [ejabberd](http://www.ejabberd.im/) (speaking [XMPP](http://xmpp.org/)), and [Redis](http://redis.io/) (speaking the [Redis protocol](http://redis.io/topics/protocol)).
+HTTP não é o único serviço que pode ser exportado por vinculação de porta. Quase qualquer tipo de software servidor pode ser executado através de um processo ligação de porta e ficar aguardando solicitações de entrada. Exemplos incluem [ejabberd](http://www.ejabberd.im/) (fallando [XMPP](http://xmpp.org/)), e [Redis](http://redis.io/) (falando o [Redis protocol](http://redis.io/topics/protocol)).
 
-Note also that the port-binding approach means that one app can become the [backing service](./backing-services) for another app, by providing the URL to the backing app as a resource handle in the [config](./config) for the consuming app.
+Note também que a abordagem de ligação de porta significa que uma aplicação pode se tornar o [serviço de apoio](./backing-services) para outra aplicação, fornecendo a URL para a aplicação de apoio como um recurso identificado na [configuração](./config) para a aplicação consumir.
